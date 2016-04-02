@@ -33,9 +33,8 @@
 
       While it is not required to assign id's to the <camelContext/> and <route/> elements, it is a good idea
       to set those for runtime management purposes (logging, JMX MBeans, ...)
-    -->
     <camelContext id="log-example-context" xmlns="http://camel.apache.org/schema/blueprint" >
-
+-->
         <!--
           A very simple Camel route, that uses a timer to trigger a message every 5 second.
 
@@ -43,7 +42,6 @@
 
           The <log/> elements are used to add human-friendly business logging statements. They make it easier to see what the
           route is doing.
-        -->
         <route id="log-route">
           <from uri="timer:foo?period=5s"/>
             <setBody>
@@ -52,5 +50,42 @@
             <log message=">>> ${body} : ${sys.runtime.id}"/>
         </route>
     </camelContext>
+-->
+    <camelContext trace="false" id="blueprintContext" xmlns="http://camel.apache.org/schema/blueprint">
+    <route id="routeB">
+        <from uri="file://inputdir?noop=true"/>
+        <split>
+            <xpath>//bank/transaction</xpath>
+            <setHeader headerName="CustId">
+                <xpath>/transaction/custid/text()</xpath>
+            </setHeader>
+            <setHeader headerName="VipStatus">
+                <xpath>/transaction/VipStatus/text()</xpath>
+            </setHeader>
+            <setHeader headerName="amt">
+                <xpath>/transaction/Detail/amount/text()</xpath>
+            </setHeader>
+            <setHeader headerName="transacontent">
+                <simple>${body}</simple>
+            </setHeader>
+            <choice>
+                <when>
+                    <xpath>/transaction[@type='Transfer']</xpath>
+                    <log message="Transaction is a transfer"/>
+                    <setHeader headerName="receiverId">
+                        <xpath>/Transaction/Detail/CustId/text()</xpath>
+                    </setHeader>
+                    <to uri="file://outpurdir?fileName=transfer-$simple{date:now:yyyyMMddhhmmss.mmm}.xml"/>
+                </when>
+                <when>
+                    <xpath>/transaction[@type='Cash']</xpath>
+                    <log message="Transaction is a cash withdrawal"/>
+                    <to uri="file://outpurdir?fileName=cash-$simple{date:now:yyyyMMddhhmmss.mmm}.xml"/>
+                </when>
+            </choice>
+        </split>
+    </route>
+</camelContext>
+
 
 </blueprint>
