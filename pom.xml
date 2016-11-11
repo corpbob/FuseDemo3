@@ -81,16 +81,6 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-mail</artifactId>
-      
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-exec</artifactId>
-     
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
@@ -208,6 +198,8 @@
             <feature>jaas</feature>
             <feature>aries-blueprint</feature>
             <feature>camel-blueprint</feature>
+            <feature>camel-mail</feature>
+            <feature>camel-exec</feature>
           </startupFeatures>
           <startupBundles>
             <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
