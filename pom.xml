@@ -3,11 +3,11 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.josborne.openshift.fuse.demo</groupId>
-  <artifactId>xpaas</artifactId>
+  <groupId>com.pk</groupId>
+  <artifactId>jboss</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>Fabric8 :: Quickstarts :: Karaf :: Camel Log</name>
+  <name>Telenor Prototype</name>
   <description>A simple Camel route in Karaf container</description>
 
   <properties>
@@ -98,6 +98,24 @@
       <version>2.17.3</version>
       <scope>test</scope>
     </dependency>
+<dependency>
+    <groupId>com.nimbusds</groupId>
+    <artifactId>nimbus-jose-jwt</artifactId>
+    <version>4.27.1</version>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-cxf</artifactId>
+	<scope>provided</scope>
+    </dependency>
+
+<dependency>
+    <groupId>org.apache.cxf</groupId>
+    <artifactId>cxf-rt-bindings-soap</artifactId>
+    <version>3.1.9</version>
+    <scope>provided</scope>
+</dependency>
   </dependencies>
 
   <build>
@@ -124,6 +142,29 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${version.maven-bundle-plugin}</version>
         <extensions>true</extensions>
+       <configuration>
+          <instructions>
+            <!--Embed-Dependency>
+ 		*;scope=compile|runtime
+            </Embed-Dependency>
+
+            <Embed-Transitive>true</Embed-Transitive>
+            <Private-Package>
+                com.pk.testAtrifact.*,
+                com.pk.*
+            </Private-Package>
+            <Import-Package>
+		!*
+            </Import-Package-->
+<Export-Package>camelinaction.order</Export-Package>
+            <!--Embed-Dependency>*;scope=!provided|test</Embed-Dependency-->
+            <!--Embed-Transitive>true</Embed-Transitive-->
+            <Embed-Dependency>nimbus-jose-jwt</Embed-Dependency>
+            <!--Embed-Transitive>true</Embed-Transitive-->
+
+          <Import-Package>*;resolution:=optional</Import-Package>
+          </instructions>
+        </configuration> 
       </plugin>
       <plugin>
         <groupId>io.fabric8</groupId>
