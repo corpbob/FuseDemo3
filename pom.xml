@@ -241,6 +241,8 @@
             <feature>camel-blueprint</feature>
             <feature>camel-mail</feature>
             <feature>camel-exec</feature>
+            <feature>camel-netty-http</feature>
+            <feature>camel-cxf</feature>
           </startupFeatures>
           <startupBundles>
             <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
